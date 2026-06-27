@@ -432,7 +432,7 @@
                     </div>
 
                     {{-- Judul Postingan --}}
-                    <a href="#" class="post-title">
+                    <a href="{{ route('posts.show', 1) }}" class="post-title">
                         Implementasi Algoritma Gradient Boosting dari Nol — Panduan Lengkap untuk Pemula Absolut
                     </a>
 
@@ -477,7 +477,7 @@
                         </div>
 
                         {{-- Tombol Komentar --}}
-                        <a href="#" class="btn-comment">
+                        <a href="{{ route('posts.show', 1) }}" class="btn-comment">
                             <i class="bi bi-chat-dots"></i> 42 Komentar
                         </a>
 
@@ -516,7 +516,7 @@
                         </button>
                     </div>
 
-                    <a href="#" class="post-title">
+                    <a href="{{ route('posts.show', 2) }}" class="post-title">
                         Fine-tuning GPT-2 untuk Bahasa Indonesia: Dataset, Tokenisasi, dan Hasil Evaluasi BLEU Score
                     </a>
 
@@ -547,7 +547,7 @@
                                 <i class="bi bi-arrow-down-circle-fill"></i>
                             </button>
                         </div>
-                        <a href="#" class="btn-comment">
+                        <a href="{{ route('posts.show', 2) }}" class="btn-comment">
                             <i class="bi bi-chat-dots"></i> 29 Komentar
                         </a>
                         <button class="btn-share ms-auto" title="Bagikan">
@@ -582,8 +582,7 @@
                         </button>
                     </div>
 
-                    <a href="#" class="post-title">
-                        Real-time Deteksi Gestur Tangan Menggunakan MediaPipe + OpenCV: Antarmuka Tanpa Sentuh untuk Presentasi
+                    <a href="{{ route('posts.show', 3) }}" class="post-title">: Antarmuka Tanpa Sentuh untuk Presentasi
                     </a>
 
                     <p class="post-body">
@@ -621,9 +620,7 @@
                                 <i class="bi bi-arrow-down-circle-fill"></i>
                             </button>
                         </div>
-                        <a href="#" class="btn-comment">
-                            <i class="bi bi-chat-dots"></i> 87 Komentar
-                        </a>
+                        <a href="{{ route('posts.show', 3) }}" class="btn-comment">
                         <button class="btn-share ms-auto">
                             <i class="bi bi-share"></i> Bagikan
                         </button>
@@ -656,8 +653,7 @@
                         </button>
                     </div>
 
-                    <a href="#" class="post-title">
-                        Melatih AI Bermain Snake Game dengan DQN (Deep Q-Network): Dari 0 Hingga Skor 500+
+                    <a href="{{ route('posts.show', 4) }}" class="post-title"> (Deep Q-Network): Dari 0 Hingga Skor 500+
                     </a>
 
                     <p class="post-body">
@@ -684,7 +680,7 @@
                                 <i class="bi bi-arrow-down-circle-fill"></i>
                             </button>
                         </div>
-                        <a href="#" class="btn-comment">
+                        <a href="{{ route('posts.show', 4) }}" class="btn-comment">
                             <i class="bi bi-chat-dots"></i> 55 Komentar
                         </a>
                         <button class="btn-share ms-auto">

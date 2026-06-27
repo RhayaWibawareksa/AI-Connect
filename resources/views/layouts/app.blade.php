@@ -192,7 +192,7 @@
                 <div class="ms-auto d-flex align-items-center gap-3">
 
                     {{-- Tombol Buat Post --}}
-                    <a href="{{ url('/posts/create') }}" class="btn btn-create-post">
+                    <a href="{{ route('posts.create') }}" class="btn btn-create-post">
                         <i class="bi bi-plus-lg me-1"></i> Buat Post
                     </a>
 
