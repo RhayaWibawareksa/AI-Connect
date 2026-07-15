@@ -402,11 +402,11 @@
                 Laporan
                 <span class="sidebar-badge" style="background:rgba(248,81,73,0.2); color:var(--adm-accent);">7</span>
             </a>
-            <a href="#" class="sidebar-nav-link">
+            <a href="#section-comments" class="sidebar-nav-link">
                 <span class="nav-icon"><i class="bi bi-chat-square-dots"></i></span>
                 Komentar
             </a>
-            <a href="#" class="sidebar-nav-link">
+            <a href="#section-categories" class="sidebar-nav-link">
                 <span class="nav-icon"><i class="bi bi-tags"></i></span>
                 Kategori
             </a>
@@ -419,7 +419,7 @@
                 Semua User
                 <span class="sidebar-badge" style="background:rgba(63,185,80,0.2); color:var(--adm-green);">32K</span>
             </a>
-            <a href="#" class="sidebar-nav-link">
+            <a href="#section-blocked" class="sidebar-nav-link">
                 <span class="nav-icon"><i class="bi bi-person-slash"></i></span>
                 User Terblokir
             </a>
@@ -427,11 +427,11 @@
             {{-- Nav: Sistem --}}
             <div class="sidebar-section-label">Sistem</div>
 
-            <a href="#" class="sidebar-nav-link">
+            <a href="#section-settings" class="sidebar-nav-link">
                 <span class="nav-icon"><i class="bi bi-gear"></i></span>
                 Pengaturan
             </a>
-            <a href="#" class="sidebar-nav-link">
+            <a href="#section-logs" class="sidebar-nav-link">
                 <span class="nav-icon"><i class="bi bi-file-earmark-text"></i></span>
                 Log Sistem
             </a>
@@ -512,51 +512,100 @@
                 <div class="row g-3 mb-4">
 
                     <div class="col-6 col-xl-3">
-                        <div class="kpi-card">
-                            <div class="kpi-icon" style="background:rgba(88,166,255,0.12);">📝</div>
-                            <div class="kpi-value">8,412</div>
-                            <div class="kpi-label">Total Postingan</div>
-                            <div class="kpi-change" style="color:var(--adm-green);">
-                                <i class="bi bi-arrow-up-short"></i> +24 hari ini
+                        <a href="#section-posts" class="kpi-link" data-filter="posts:all" style="text-decoration:none;">
+                            <div class="kpi-card">
+                                <div class="kpi-icon" style="background:rgba(88,166,255,0.12);">📝</div>
+                                <div class="kpi-value">{{ number_format($stats['total_posts']) }}</div>
+                                <div class="kpi-label">Total postingan</div>
+                                <div class="kpi-change" style="color:var(--adm-green);">
+                                    <i class="bi bi-arrow-up-short"></i> {{ $stats['published_posts'] }} terpublikasi
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
 
                     <div class="col-6 col-xl-3">
-                        <div class="kpi-card">
-                            <div class="kpi-icon" style="background:rgba(63,185,80,0.12);">👥</div>
-                            <div class="kpi-value">32,841</div>
-                            <div class="kpi-label">Total Pengguna</div>
-                            <div class="kpi-change" style="color:var(--adm-green);">
-                                <i class="bi bi-arrow-up-short"></i> +147 minggu ini
+                        <a href="#section-users" class="kpi-link" data-filter="users:all" style="text-decoration:none;">
+                            <div class="kpi-card">
+                                <div class="kpi-icon" style="background:rgba(63,185,80,0.12);">👥</div>
+                                <div class="kpi-value">{{ number_format($stats['total_users']) }}</div>
+                                <div class="kpi-label">Total akun terdaftar</div>
+                                <div class="kpi-change" style="color:var(--adm-green);">
+                                    <i class="bi bi-arrow-up-short"></i> {{ $stats['users_with_posts'] }} sudah membuat postingan
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
 
                     <div class="col-6 col-xl-3">
-                        <div class="kpi-card">
-                            <div class="kpi-icon" style="background:rgba(248,81,73,0.12);">🚩</div>
-                            <div class="kpi-value">7</div>
-                            <div class="kpi-label">Laporan Menunggu</div>
-                            <div class="kpi-change" style="color:var(--adm-accent);">
-                                <i class="bi bi-exclamation-triangle"></i> Segera ditinjau
+                        <a href="#section-users" class="kpi-link" data-filter="users:with_posts" style="text-decoration:none;">
+                            <div class="kpi-card">
+                                <div class="kpi-icon" style="background:rgba(248,81,73,0.12);">✅</div>
+                                <div class="kpi-value">{{ number_format($stats['users_with_posts']) }}</div>
+                                <div class="kpi-label">Sudah membuat postingan</div>
+                                <div class="kpi-change" style="color:var(--adm-accent);">
+                                    <i class="bi bi-check2-circle"></i> {{ $stats['users_without_posts'] }} Belum pernah posting
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
 
                     <div class="col-6 col-xl-3">
-                        <div class="kpi-card">
-                            <div class="kpi-icon" style="background:rgba(210,153,34,0.12);">💬</div>
-                            <div class="kpi-value">156K</div>
-                            <div class="kpi-label">Total Komentar</div>
-                            <div class="kpi-change" style="color:var(--adm-green);">
-                                <i class="bi bi-arrow-up-short"></i> +892 hari ini
+                        <a href="#section-posts" class="kpi-link" data-filter="posts:pending" style="text-decoration:none;">
+                            <div class="kpi-card">
+                                <div class="kpi-icon" style="background:rgba(210,153,34,0.12);">⏳</div>
+                                <div class="kpi-value">{{ number_format($stats['pending_posts']) }}</div>
+                                <div class="kpi-label">Postingan tertunda</div>
+                                <div class="kpi-change" style="color:var(--adm-green);">
+                                    <i class="bi bi-hourglass-split"></i> Menunggu review
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
 
                 </div>
                 {{-- /KPI --}}
+
+                {{-- ====================================================
+                     SECTION: ANALITIK
+                     ==================================================== --}}
+                <div class="admin-panel mb-4" id="section-analytics">
+                    <div class="admin-panel-header" style="align-items:center;">
+                        <h2 class="admin-panel-title"><i class="bi bi-bar-chart-line" style="color:var(--adm-blue);"></i> Analitik</h2>
+                        <div class="d-flex align-items-center gap-2">
+                            <span style="font-size:0.75rem; color:var(--adm-text-muted);">Ringkasan trafik & kontribusi</span>
+                            <div style="margin-left:1rem;">
+                                <a href="{{ route('admin.secret', ['analytics_days' => 7]) }}#section-analytics" class="btn-adm btn-adm-primary" style="font-size:0.7rem;">7 Hari</a>
+                                <a href="{{ route('admin.secret', ['analytics_days' => 30]) }}#section-analytics" class="btn-adm btn-adm-primary" style="font-size:0.7rem; margin-left:6px;">30 Hari</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-3">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <canvas id="postsChart" width="400" height="150"></canvas>
+                            </div>
+                            <div class="col-lg-4">
+                                <div style="margin-bottom:1rem;">
+                                    <strong style="color:#fff;">Top Kategori</strong>
+                                    <ul style="color:var(--adm-text-muted); margin-top:0.5rem;">
+                                        @foreach(($analytics['topCategories'] ?? []) as $cat)
+                                            <li>{{ $cat->name }} — {{ $cat->posts_count }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                <div>
+                                    <strong style="color:#fff;">Top Penulis</strong>
+                                    <ul style="color:var(--adm-text-muted); margin-top:0.5rem;">
+                                        @foreach(($analytics['topAuthors'] ?? []) as $a)
+                                            <li>{{ $a->name ?? $a->username }} — {{ $a->posts_count }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
                 {{-- ====================================================
@@ -569,8 +618,8 @@
                             Postingan Masuk Terbaru
                         </h2>
                         <div class="d-flex gap-2">
-                            <span style="font-size:0.75rem; color:var(--adm-text-muted);">128 total</span>
-                            <a href="#" class="btn-adm btn-adm-primary">
+                            <span style="font-size:0.75rem; color:var(--adm-text-muted);">{{ $stats['total_posts'] }} total</span>
+                            <a href="{{ route('admin.secret') }}" class="btn-adm btn-adm-primary">
                                 <i class="bi bi-arrow-clockwise"></i> Refresh
                             </a>
                         </div>
@@ -592,125 +641,31 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- Baris 1 --}}
-                                <tr>
-                                    <td style="color:var(--adm-text-muted);">001</td>
-                                    <td>
-                                        <a href="#" style="color:var(--adm-blue); text-decoration:none; font-weight:600;">
-                                            Implementasi Gradient Boosting dari Nol
-                                        </a>
-                                    </td>
-                                    <td>Rina Setiawan</td>
-                                    <td><span class="status-badge status-review">ML</span></td>
-                                    <td style="color:var(--adm-green);">↑ 248</td>
-                                    <td>42</td>
-                                    <td style="color:var(--adm-text-muted);">2025-06-14</td>
-                                    <td><span class="status-badge status-active">Publik</span></td>
-                                    <td>
-                                        <a href="#" class="btn-adm btn-adm-primary me-1">
-                                            <i class="bi bi-eye"></i> Lihat
-                                        </a>
-                                        <a href="#" class="btn-adm btn-adm-danger">
-                                            <i class="bi bi-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-
-                                {{-- Baris 2 --}}
-                                <tr>
-                                    <td style="color:var(--adm-text-muted);">002</td>
-                                    <td>
-                                        <a href="#" style="color:var(--adm-blue); text-decoration:none; font-weight:600;">
-                                            Fine-tuning GPT-2 untuk Bahasa Indonesia
-                                        </a>
-                                    </td>
-                                    <td>Dimas Pratama</td>
-                                    <td><span class="status-badge status-review">NLP</span></td>
-                                    <td style="color:var(--adm-green);">↑ 183</td>
-                                    <td>29</td>
-                                    <td style="color:var(--adm-text-muted);">2025-06-14</td>
-                                    <td><span class="status-badge status-active">Publik</span></td>
-                                    <td>
-                                        <a href="#" class="btn-adm btn-adm-primary me-1">
-                                            <i class="bi bi-eye"></i> Lihat
-                                        </a>
-                                        <a href="#" class="btn-adm btn-adm-danger">
-                                            <i class="bi bi-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-
-                                {{-- Baris 3 --}}
-                                <tr>
-                                    <td style="color:var(--adm-text-muted);">003</td>
-                                    <td>
-                                        <a href="#" style="color:var(--adm-blue); text-decoration:none; font-weight:600;">
-                                            Real-time Deteksi Gestur Tangan MediaPipe
-                                        </a>
-                                    </td>
-                                    <td>Nadia Kusuma</td>
-                                    <td><span class="status-badge status-review">CV</span></td>
-                                    <td style="color:var(--adm-green);">↑ 512</td>
-                                    <td>87</td>
-                                    <td style="color:var(--adm-text-muted);">2025-06-13</td>
-                                    <td><span class="status-badge status-active">Publik</span></td>
-                                    <td>
-                                        <a href="#" class="btn-adm btn-adm-primary me-1">
-                                            <i class="bi bi-eye"></i> Lihat
-                                        </a>
-                                        <a href="#" class="btn-adm btn-adm-danger">
-                                            <i class="bi bi-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-
-                                {{-- Baris 4 --}}
-                                <tr>
-                                    <td style="color:var(--adm-text-muted);">004</td>
-                                    <td>
-                                        <a href="#" style="color:var(--adm-amber); text-decoration:none; font-weight:600;">
-                                            ⚠ [Dilaporkan] Cara Bypass Filter Konten AI
-                                        </a>
-                                    </td>
-                                    <td style="color:var(--adm-accent);">user_anon_x</td>
-                                    <td><span class="status-badge status-review">LLM</span></td>
-                                    <td style="color:var(--adm-accent);">↓ -14</td>
-                                    <td>3</td>
-                                    <td style="color:var(--adm-text-muted);">2025-06-15</td>
-                                    <td><span class="status-badge status-pending">Pending</span></td>
-                                    <td>
-                                        <a href="#" class="btn-adm btn-adm-success me-1">
-                                            <i class="bi bi-check-lg"></i> Approve
-                                        </a>
-                                        <a href="#" class="btn-adm btn-adm-danger">
-                                            <i class="bi bi-ban"></i> Hapus
-                                        </a>
-                                    </td>
-                                </tr>
-
-                                {{-- Baris 5 --}}
-                                <tr>
-                                    <td style="color:var(--adm-text-muted);">005</td>
-                                    <td>
-                                        <a href="#" style="color:var(--adm-blue); text-decoration:none; font-weight:600;">
-                                            Melatih DQN untuk Bermain Snake Game
-                                        </a>
-                                    </td>
-                                    <td>Budi Hartono</td>
-                                    <td><span class="status-badge status-review">RL</span></td>
-                                    <td style="color:var(--adm-green);">↑ 319</td>
-                                    <td>55</td>
-                                    <td style="color:var(--adm-text-muted);">2025-06-12</td>
-                                    <td><span class="status-badge status-active">Publik</span></td>
-                                    <td>
-                                        <a href="#" class="btn-adm btn-adm-primary me-1">
-                                            <i class="bi bi-eye"></i> Lihat
-                                        </a>
-                                        <a href="#" class="btn-adm btn-adm-danger">
-                                            <i class="bi bi-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                                @forelse ($recentPosts as $post)
+                                    <tr>
+                                        <td style="color:var(--adm-text-muted);">{{ $loop->iteration }}</td>
+                                        <td>
+                                            <a href="{{ route('posts.show', $post->id) }}" style="color:var(--adm-blue); text-decoration:none; font-weight:600;">
+                                                {{ Str::limit($post->title, 60) }}
+                                            </a>
+                                        </td>
+                                        <td>{{ $post->user?->name ?? 'Anon' }}</td>
+                                        <td><span class="status-badge status-review">{{ $post->category?->name ?? '-' }}</span></td>
+                                        <td style="color:var(--adm-green);">↑ {{ $post->votes }}</td>
+                                        <td>{{ $post->comments_count ?? $post->comments()->count() }}</td>
+                                        <td style="color:var(--adm-text-muted);">{{ $post->created_at->format('Y-m-d') }}</td>
+                                        <td><span class="status-badge {{ $post->status === 'published' ? 'status-active' : 'status-pending' }}">{{ $post->status }}</span></td>
+                                        <td>
+                                            <a href="{{ route('posts.show', $post->id) }}" class="btn-adm btn-adm-primary me-1">
+                                                <i class="bi bi-eye"></i> Lihat
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="9" class="text-center py-3" style="color:var(--adm-text-muted);">Belum ada postingan.</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
@@ -730,7 +685,7 @@
                                     <i class="bi bi-people" style="color:var(--adm-green);"></i>
                                     Manajemen Pengguna
                                 </h2>
-                                <span style="font-size:0.75rem; color:var(--adm-text-muted);">32,841 user</span>
+                                <span style="font-size:0.75rem; color:var(--adm-text-muted);">{{ number_format($stats['total_users']) }} user</span>
                             </div>
 
                             <table class="admin-table">
@@ -744,57 +699,24 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <img src="https://ui-avatars.com/api/?name=Rina+S&background=6366f1&color=fff&size=24" style="width:24px;height:24px;border-radius:50%;" alt="">
-                                                <span>Rina Setiawan</span>
-                                            </div>
-                                        </td>
-                                        <td style="color:var(--adm-text-muted);">Jan 2024</td>
-                                        <td>47</td>
-                                        <td><span class="status-badge status-active">Aktif</span></td>
-                                        <td><a href="#" class="btn-adm btn-adm-danger"><i class="bi bi-person-slash"></i> Ban</a></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <img src="https://ui-avatars.com/api/?name=Dimas+P&background=06b6d4&color=fff&size=24" style="width:24px;height:24px;border-radius:50%;" alt="">
-                                                <span>Dimas Pratama</span>
-                                            </div>
-                                        </td>
-                                        <td style="color:var(--adm-text-muted);">Mar 2024</td>
-                                        <td>31</td>
-                                        <td><span class="status-badge status-active">Aktif</span></td>
-                                        <td><a href="#" class="btn-adm btn-adm-danger"><i class="bi bi-person-slash"></i> Ban</a></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <img src="https://ui-avatars.com/api/?name=Anon+X&background=f85149&color=fff&size=24" style="width:24px;height:24px;border-radius:50%;" alt="">
-                                                <span style="color:var(--adm-accent);">user_anon_x</span>
-                                            </div>
-                                        </td>
-                                        <td style="color:var(--adm-text-muted);">Jun 2025</td>
-                                        <td>2</td>
-                                        <td><span class="status-badge status-pending">Tinjau</span></td>
-                                        <td><a href="#" class="btn-adm btn-adm-danger"><i class="bi bi-person-slash"></i> Ban</a></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <img src="https://ui-avatars.com/api/?name=Spam+Bot&background=64748b&color=fff&size=24" style="width:24px;height:24px;border-radius:50%;" alt="">
-                                                <span style="color:var(--adm-text-muted);">spam_bot_99</span>
-                                            </div>
-                                        </td>
-                                        <td style="color:var(--adm-text-muted);">Jun 2025</td>
-                                        <td>0</td>
-                                        <td><span class="status-badge status-banned">Banned</span></td>
-                                        <td><a href="#" class="btn-adm btn-adm-success"><i class="bi bi-person-check"></i> Unban</a></td>
-                                    </tr>
+                                    @forelse ($recentUsers as $user)
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name ?? 'User') }}&background=6366f1&color=fff&size=24" style="width:24px;height:24px;border-radius:50%;" alt="">
+                                                    <span>{{ $user->name ?? $user->email }}</span>
+                                                </div>
+                                            </td>
+                                            <td style="color:var(--adm-text-muted);">{{ $user->created_at->format('M Y') }}</td>
+                                            <td>{{ $user->posts_count }}</td>
+                                            <td><span class="status-badge status-active">Aktif</span></td>
+                                            <td><span class="status-badge status-review">{{ $user->posts_count > 0 ? 'Posting' : 'Baru' }}</span></td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="5" class="text-center py-3" style="color:var(--adm-text-muted);">Belum ada pengguna.</td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>
@@ -817,72 +739,46 @@
                                 <thead>
                                     <tr>
                                         <th>Konten</th>
-                                        <th>Dilaporkan oleh</th>
+                                        <th>Waktu Melaporkan</th>
                                         <th>Alasan</th>
                                         <th>Tgl</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                @forelse ($reports as $r)
                                     <tr>
                                         <td>
-                                            <a href="#" style="color:var(--adm-blue); text-decoration:none;">
-                                                Post #004
-                                            </a>
+                                            @if($r->post)
+                                                <a href="{{ route('posts.show', $r->post->id) }}" style="color:var(--adm-blue); text-decoration:none;">
+                                                    {{ Str::limit($r->post->title ?? 'Post', 60) }}
+                                                </a>
+                                            @else
+                                                <span style="color:var(--adm-text-muted);">(Post tidak ditemukan)</span>
+                                            @endif
                                         </td>
-                                        <td>3 pengguna</td>
-                                        <td><span class="status-badge status-banned">Berbahaya</span></td>
-                                        <td style="color:var(--adm-text-muted);">15 Jun</td>
+                                        <td>{{ $r->created_at ? $r->created_at->diffForHumans() : '-' }}</td>
+                                        <td><span class="status-badge {{ $r->status === 'resolved' ? 'status-active' : ($r->status === 'ignored' ? 'status-pending' : 'status-banned') }}">{{ strtoupper($r->reason ?? 'Laporan') }}</span></td>
+                                        <td style="color:var(--adm-text-muted);">{{ $r->created_at ? $r->created_at->format('Y-m-d') : '-' }}</td>
                                         <td class="d-flex gap-1 flex-wrap">
-                                            <a href="#" class="btn-adm btn-adm-danger">Hapus</a>
-                                            <a href="#" class="btn-adm btn-adm-primary">Abaikan</a>
-                                        </td>
-                                    </tr>
+                                            <form method="POST" action="{{ route('admin.report.delete_post', $r->id) }}">@csrf
+                                                <button class="btn-adm btn-adm-danger" type="submit">Hapus</button>
+                                            </form>
 
-                                    <tr>
-                                        <td>
-                                            <a href="#" style="color:var(--adm-blue); text-decoration:none;">
-                                                Komentar #728
-                                            </a>
-                                        </td>
-                                        <td>1 pengguna</td>
-                                        <td><span class="status-badge status-pending">Spam</span></td>
-                                        <td style="color:var(--adm-text-muted);">14 Jun</td>
-                                        <td class="d-flex gap-1 flex-wrap">
-                                            <a href="#" class="btn-adm btn-adm-danger">Hapus</a>
-                                            <a href="#" class="btn-adm btn-adm-primary">Abaikan</a>
-                                        </td>
-                                    </tr>
+                                            <form method="POST" action="{{ route('admin.report.ban_user', $r->id) }}">@csrf
+                                                <button class="btn-adm btn-adm-danger" type="submit">Ban</button>
+                                            </form>
 
-                                    <tr>
-                                        <td>
-                                            <a href="#" style="color:var(--adm-blue); text-decoration:none;">
-                                                Post #391
-                                            </a>
-                                        </td>
-                                        <td>2 pengguna</td>
-                                        <td><span class="status-badge status-pending">Hoaks</span></td>
-                                        <td style="color:var(--adm-text-muted);">13 Jun</td>
-                                        <td class="d-flex gap-1 flex-wrap">
-                                            <a href="#" class="btn-adm btn-adm-danger">Hapus</a>
-                                            <a href="#" class="btn-adm btn-adm-primary">Abaikan</a>
+                                            <form method="POST" action="{{ route('admin.report.dismiss', $r->id) }}">@csrf
+                                                <button class="btn-adm btn-adm-primary" type="submit">Abaikan</button>
+                                            </form>
                                         </td>
                                     </tr>
-
+                                @empty
                                     <tr>
-                                        <td>
-                                            <a href="#" style="color:var(--adm-blue); text-decoration:none;">
-                                                User #anon_x
-                                            </a>
-                                        </td>
-                                        <td>5 pengguna</td>
-                                        <td><span class="status-badge status-banned">Penyalahgunaan</span></td>
-                                        <td style="color:var(--adm-text-muted);">15 Jun</td>
-                                        <td class="d-flex gap-1 flex-wrap">
-                                            <a href="#" class="btn-adm btn-adm-danger">Ban</a>
-                                            <a href="#" class="btn-adm btn-adm-primary">Tinjau</a>
-                                        </td>
+                                        <td colspan="5" class="text-center py-3" style="color:var(--adm-text-muted);">Belum ada laporan.</td>
                                     </tr>
+                                @endforelse
                                 </tbody>
                             </table>
                         </div>
@@ -890,6 +786,140 @@
 
                 </div>
                 {{-- /TABEL USER + LAPORAN --}}
+
+                {{-- ====================================================
+                     SECTION: KOMENTAR
+                     ==================================================== --}}
+                <div class="admin-panel mt-4" id="section-comments">
+                    <div class="admin-panel-header">
+                        <h2 class="admin-panel-title"><i class="bi bi-chat-square-dots" style="color:var(--adm-blue);"></i> Komentar Terbaru</h2>
+                        <span style="font-size:0.75rem; color:var(--adm-text-muted);">{{ $recentComments->count() }} terbaru</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Isi Komentar</th>
+                                    <th>Penulis</th>
+                                    <th>Post</th>
+                                    <th>Tanggal</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($recentComments as $c)
+                                    <tr>
+                                        <td style="max-width:40%;">{{ Str::limit($c->content, 120) }}</td>
+                                        <td>{{ $c->user?->name ?? 'Anon' }}</td>
+                                        <td><a href="{{ route('posts.show', $c->post_id) }}" style="color:var(--adm-blue);">{{ Str::limit($c->post?->title ?? 'Post', 50) }}</a></td>
+                                        <td style="color:var(--adm-text-muted);">{{ $c->created_at->format('Y-m-d') }}</td>
+                                        <td class="d-flex gap-1">
+                                            <a href="{{ route('posts.show', $c->post_id) }}#comment-{{ $c->id }}" class="btn-adm btn-adm-primary">Lihat</a>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr><td colspan="5" class="text-center py-3" style="color:var(--adm-text-muted);">Belum ada komentar.</td></tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                {{-- ====================================================
+                     SECTION: KATEGORI
+                     ==================================================== --}}
+                <div class="admin-panel mt-4" id="section-categories">
+                    <div class="admin-panel-header">
+                        <h2 class="admin-panel-title"><i class="bi bi-tags" style="color:var(--adm-accent);"></i> Kategori</h2>
+                        <span style="font-size:0.75rem; color:var(--adm-text-muted);">{{ $categories->count() }} kategori</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Nama</th>
+                                    <th>Slug</th>
+                                    <th>Jumlah Post</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($categories as $cat)
+                                    <tr>
+                                        <td>{{ $cat->name }}</td>
+                                        <td style="color:var(--adm-text-muted);">{{ $cat->slug }}</td>
+                                        <td>{{ $cat->posts_count }}</td>
+                                        <td class="d-flex gap-1">
+                                            <a href="{{ url('/dashboard?category='.$cat->slug) }}" class="btn-adm btn-adm-primary">Lihat</a>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr><td colspan="4" class="text-center py-3" style="color:var(--adm-text-muted);">Belum ada kategori.</td></tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                {{-- ====================================================
+                     SECTION: USER TERBLOKIR
+                     ==================================================== --}}
+                <div class="admin-panel mt-4" id="section-blocked">
+                    <div class="admin-panel-header">
+                        <h2 class="admin-panel-title"><i class="bi bi-person-slash" style="color:var(--adm-accent);"></i> User Terblokir</h2>
+                        <span style="font-size:0.75rem; color:var(--adm-text-muted);">{{ $blockedUsers->count() }} terblokir</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Email</th>
+                                    <th>Alasan</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($blockedUsers as $bu)
+                                    <tr>
+                                        <td>{{ $bu->name ?? $bu->username }}</td>
+                                        <td>{{ $bu->email }}</td>
+                                        <td style="color:var(--adm-text-muted);">Terblokir oleh admin</td>
+                                        <td class="d-flex gap-1">
+                                            <form method="POST" action="{{ url('/admin/unblock/'.$bu->id) }}">@csrf
+                                                <button class="btn-adm btn-adm-success">Unblock</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr><td colspan="4" class="text-center py-3" style="color:var(--adm-text-muted);">Tidak ada user terblokir.</td></tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                {{-- ====================================================
+                     SECTION: PENGATURAN & LOGS (placeholder)
+                     ==================================================== --}}
+                <div class="row g-3 mt-4">
+                    <div class="col-lg-6">
+                        <div class="admin-panel" id="section-settings">
+                            <div class="admin-panel-header">
+                                <h2 class="admin-panel-title"><i class="bi bi-gear"></i> Pengaturan</h2>
+                            </div>
+                            <div class="p-3" style="color:var(--adm-text-muted);">Placeholder: konfigurasi sistem akan ditampilkan di sini. Anda dapat menambahkan pengaturan runtime, integrasi OAuth, atau pengaturan moderasi.</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="admin-panel" id="section-logs">
+                            <div class="admin-panel-header">
+                                <h2 class="admin-panel-title"><i class="bi bi-file-earmark-text"></i> Log Sistem</h2>
+                            </div>
+                            <div class="p-3" style="color:var(--adm-text-muted);">Placeholder: ringkasan log terbaru. Untuk keamanan, log lengkap hanya dapat diakses melalui server.</div>
+                        </div>
+                    </div>
+                </div>
 
 
                 {{-- Footer Admin --}}
@@ -985,6 +1015,92 @@
                 alert('ℹ️ Anda sudah berada di Panel Admin.');
             }
         });
+    </script>
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // Render posts per day chart using data from controller
+        (function() {
+            try {
+                const labels = {!! json_encode($analytics['labels'] ?? []) !!};
+                const data = {!! json_encode($analytics['posts'] ?? []) !!};
+                const ctx = document.getElementById('postsChart');
+                if (!ctx) return;
+                new Chart(ctx.getContext('2d'), {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Postingan per hari',
+                            data: data,
+                            backgroundColor: 'rgba(88,166,255,0.12)',
+                            borderColor: 'rgba(88,166,255,0.9)',
+                            tension: 0.35,
+                            fill: true,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: { beginAtZero: true }
+                        },
+                        plugins: { legend: { display: false } }
+                    }
+                });
+            } catch (e) {
+                console.warn('Chart render failed', e);
+            }
+        })();
+    </script>
+    <script>
+        // Handle KPI card clicks to focus and filter sections
+        document.querySelectorAll('.kpi-link').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                // allow normal anchor behavior (jump to section)
+                const filter = this.getAttribute('data-filter');
+                if (!filter) return;
+                // small delay to allow scrolling
+                setTimeout(function() {
+                    applyDashboardFilter(filter);
+                }, 120);
+            });
+        });
+
+        function applyDashboardFilter(filter) {
+            // filter format: "posts:pending" or "users:with_posts"
+            const parts = filter.split(':');
+            if (parts[0] === 'posts') {
+                const mode = parts[1] || 'all';
+                // Show only rows matching mode
+                document.querySelectorAll('#section-posts tbody tr').forEach(function(tr) {
+                    const statusEl = tr.querySelector('td:nth-child(8) .status-badge');
+                    if (!statusEl) return;
+                    const status = statusEl.textContent.trim().toLowerCase();
+                    if (mode === 'pending') {
+                        if (status === 'pending') tr.style.display = '';
+                        else tr.style.display = 'none';
+                    } else {
+                        tr.style.display = '';
+                    }
+                });
+            }
+
+            if (parts[0] === 'users') {
+                const mode = parts[1] || 'all';
+                document.querySelectorAll('#section-users tbody tr').forEach(function(tr) {
+                    const postsCell = tr.querySelector('td:nth-child(3)');
+                    const postsCount = postsCell ? parseInt(postsCell.textContent || '0', 10) : 0;
+                    if (mode === 'with_posts') {
+                        if (postsCount > 0) tr.style.display = '';
+                        else tr.style.display = 'none';
+                    } else {
+                        tr.style.display = '';
+                    }
+                });
+            }
+        }
     </script>
 
 </body>

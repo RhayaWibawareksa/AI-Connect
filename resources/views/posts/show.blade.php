@@ -58,6 +58,15 @@
         font-size: 1rem;
     }
 
+    .post-cover-image {
+        width: 100%;
+        max-height: 420px;
+        object-fit: cover;
+        border-radius: 14px;
+        margin-bottom: 1.5rem;
+        display: block;
+    }
+
     .post-body-section p {
         margin-bottom: 1rem;
     }
@@ -297,23 +306,33 @@
         <div>
             {{-- Tombol Aksi --}}
             <div class="post-actions">
-                <button>
-                    <i class="bi bi-arrow-up-circle"></i> Upvote ({{ $post->votes ?? 0 }})
+                <button type="button" onclick="window.handleVote(this, {{ $post->id }}, 'up')">
+                    <i class="bi bi-arrow-up-circle"></i> Upvote (<span id="detail-vote-count-{{ $post->id }}">{{ $post->votes ?? 0 }}</span>)
                 </button>
-                <button>
+                <button type="button" onclick="window.handleVote(this, {{ $post->id }}, 'down')">
                     <i class="bi bi-arrow-down-circle"></i> Downvote
                 </button>
-                <button>
+                <button type="button" onclick="window.handleBookmark(this, {{ $post->id }})">
                     <i class="bi bi-bookmark"></i> Simpan
                 </button>
-                <button>
+                <button type="button" onclick="window.sharePost('{{ route('posts.show', $post->id) }}')">
                     <i class="bi bi-share"></i> Bagikan
+                </button>
+                <button type="button" class="text-danger" onclick="window.reportPost({{ $post->id }})">
+                    <i class="bi bi-flag"></i> Laporkan
                 </button>
             </div>
 
             {{-- Konten Postingan --}}
             <div class="post-body-section">
-                {!! nl2br(e($post->content)) !!}
+            @if ($post->image_url)
+                @php
+                    $imageSrc = preg_match('/^https?:\/\//', $post->image_url)
+                        ? $post->image_url
+                        : \Illuminate\Support\Facades\Storage::disk('public')->url(ltrim($post->image_url, '/'));
+                @endphp
+                <img src="{{ $imageSrc }}" alt="Gambar Post" class="post-cover-image">
+            @endif
             </div>
 
             {{-- Bagian Komentar --}}

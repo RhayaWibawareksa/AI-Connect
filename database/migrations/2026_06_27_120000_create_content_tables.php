@@ -30,6 +30,9 @@ return new class extends Migration
             $table->text('content');
             $table->enum('status', ['pending', 'published'])->default('pending');
             $table->integer('votes')->default(0);
+            $table->string('github_url')->nullable();
+            $table->string('demo_url')->nullable();
+            $table->string('image_url')->nullable();
         });
 
         Schema::create('comments', function (Blueprint $table) {
@@ -47,6 +50,23 @@ return new class extends Migration
             $table->enum('status', ['pending', 'resolved'])->default('pending');
             $table->timestamps();
         });
+
+        Schema::create('post_votes', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('post_id')->constrained()->cascadeOnDelete();
+            $table->enum('type', ['up', 'down']);
+            $table->timestamps();
+            $table->unique(['user_id', 'post_id']);
+        });
+
+        Schema::create('bookmarks', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('post_id')->constrained()->cascadeOnDelete();
+            $table->timestamps();
+            $table->unique(['user_id', 'post_id']);
+        });
     }
 
     /**
@@ -54,6 +74,8 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('bookmarks');
+        Schema::dropIfExists('post_votes');
         Schema::dropIfExists('reports');
         Schema::dropIfExists('comments');
         Schema::dropIfExists('categories');
@@ -61,7 +83,7 @@ return new class extends Migration
         Schema::table('posts', function (Blueprint $table) {
             $table->dropForeign(['user_id']);
             $table->dropForeign(['category_id']);
-            $table->dropColumn(['user_id', 'category_id', 'title', 'content', 'status', 'votes']);
+            $table->dropColumn(['user_id', 'category_id', 'title', 'content', 'status', 'votes', 'github_url', 'demo_url', 'image_url']);
         });
 
         Schema::table('users', function (Blueprint $table) {

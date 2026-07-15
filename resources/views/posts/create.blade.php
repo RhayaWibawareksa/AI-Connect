@@ -51,6 +51,32 @@
         min-height: 300px;
     }
 
+    .image-preview {
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        background: #f8fafc;
+        padding: 1rem;
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .image-preview .preview-label {
+        font-weight: 600;
+        color: #334155;
+        margin: 0;
+    }
+
+    .image-preview .preview-img {
+        width: 100%;
+        max-width: 430px;
+        height: auto;
+        border-radius: 12px;
+        object-fit: cover;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    }
+
     .btn-submit {
         background: #6366f1;
         color: #fff;
@@ -128,7 +154,7 @@
         </div>
     @endif
 
-    <form action="{{ url('/posts') }}" method="POST" class="form-container">
+    <form action="{{ url('/posts') }}" method="POST" enctype="multipart/form-data" class="form-container">
         @csrf
 
         <div class="form-group">
@@ -175,6 +201,24 @@
         </div>
 
         <div class="form-group">
+            <label for="image">Gambar Postingan (opsional)</label>
+            <input
+                type="file"
+                id="image"
+                name="image"
+                accept="image/*"
+                class="form-control"
+            >
+            <div id="image-preview" class="image-preview mt-3" style="display:none;">
+                <p class="preview-label">Preview gambar:</p>
+                <img id="image-preview-src" src="" alt="Preview Gambar" class="preview-img">
+            </div>
+            @error('image')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
+        </div>
+
+        <div class="form-group">
             <button type="submit" class="btn-submit">
                 <i class="bi bi-check-circle me-2"></i> Publish Postingan
             </button>
@@ -185,4 +229,34 @@
     </form>
 </div>
 
+@section('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const imageInput = document.getElementById('image');
+        const previewWrapper = document.getElementById('image-preview');
+        const previewImage = document.getElementById('image-preview-src');
+
+        imageInput.addEventListener('change', function () {
+            const file = this.files && this.files[0];
+            if (!file) {
+                previewWrapper.style.display = 'none';
+                previewImage.src = '';
+                return;
+            }
+
+            if (!file.type.startsWith('image/')) {
+                previewWrapper.style.display = 'none';
+                previewImage.src = '';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                previewImage.src = event.target.result;
+                previewWrapper.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        });
+    });
+</script>
 @endsection
