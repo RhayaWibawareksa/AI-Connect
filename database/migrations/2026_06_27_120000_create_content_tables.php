@@ -20,7 +20,7 @@ return new class extends Migration
 
         Schema::table('users', function (Blueprint $table) {
             $table->string('username', 50)->nullable()->after('name');
-            $table->enum('role', ['user', 'admin'])->default('user');
+            $table->enum('role', ['user', 'admin', 'banned'])->default('user');
         });
 
         Schema::table('posts', function (Blueprint $table) {
@@ -47,7 +47,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('post_id')->nullable()->constrained()->cascadeOnDelete();
             $table->text('reason')->nullable();
-            $table->enum('status', ['pending', 'resolved'])->default('pending');
+            $table->enum('status', ['pending', 'resolved', 'ignored'])->default('pending');
             $table->timestamps();
         });
 

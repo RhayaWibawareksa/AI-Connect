@@ -41,10 +41,8 @@ Route::post('/password/reset', [PasswordResetController::class, 'reset'])->name(
 // Admin secret route
 Route::middleware('auth')->group(function () {
     Route::get('/admin-secret', [AdminDashboardController::class, 'index'])->name('admin.secret');
-    Route::post('/admin/unblock/{id}', [AdminDashboardController::class, 'unblock'])->name('admin.unblock');
     // Report moderation actions
     Route::post('/admin/report/{id}/delete-post', [AdminDashboardController::class, 'deleteReportedPost'])->name('admin.report.delete_post');
-    Route::post('/admin/report/{id}/ban-user', [AdminDashboardController::class, 'banReportedUser'])->name('admin.report.ban_user');
     Route::post('/admin/report/{id}/dismiss', [AdminDashboardController::class, 'dismissReport'])->name('admin.report.dismiss');
 });
 

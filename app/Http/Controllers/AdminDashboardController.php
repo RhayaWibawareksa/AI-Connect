@@ -29,7 +29,6 @@ class AdminDashboardController extends Controller
             'users_without_posts' => $usersWithoutPosts,
             'total_posts' => Post::count(),
             'published_posts' => Post::where('status', 'published')->count(),
-            'pending_posts' => Post::where('status', 'pending')->count(),
         ];
 
         $recentPosts = Post::with(['user', 'category'])
@@ -52,11 +51,16 @@ class AdminDashboardController extends Controller
             ->get();
 
         $reports = \App\Models\Report::with('post')
+            ->where('status', 'pending')
             ->latest()
             ->take(10)
             ->get();
 
-        $blockedUsers = User::where('role', 'banned')->get();
+        $pendingReportsCount = \App\Models\Report::where('status', 'pending')->count();
+
+
+
+
 
         // Analytics: configurable days (7 or 30)
         $allowed = [7, 30];
@@ -88,22 +92,10 @@ class AdminDashboardController extends Controller
             'topAuthors' => $topAuthors,
         ];
 
-        return view('admin', compact('stats', 'recentPosts', 'recentUsers', 'recentComments', 'categories', 'reports', 'blockedUsers', 'analytics'));
+        return view('admin', compact('stats', 'recentPosts', 'recentUsers', 'recentComments', 'categories', 'reports', 'pendingReportsCount', 'analytics'));
     }
 
-    public function unblock($id)
-    {
-        $user = User::find($id);
-        if (! $user) {
-            return redirect()->route('admin.secret')->with('error', 'User tidak ditemukan');
-        }
 
-        // Ubah role menjadi 'user' sebagai default
-        $user->role = 'user';
-        $user->save();
-
-        return redirect()->route('admin.secret')->with('success', 'User telah di-unblock');
-    }
 
     // Moderation: delete the reported post
     public function deleteReportedPost($id)
@@ -129,33 +121,6 @@ class AdminDashboardController extends Controller
         return redirect()->route('admin.secret')->with('success', 'Postingan telah dihapus dan laporan diselesaikan.');
     }
 
-    // Moderation: ban the author of the reported post (or error if unknown)
-    public function banReportedUser($id)
-    {
-        $user = Auth::user();
-        if (! $user || ! $user->isAdmin()) {
-            return redirect('/dashboard')->with('error', 'Akses admin diperlukan.');
-        }
-
-        $report = Report::find($id);
-        if (! $report) {
-            return redirect()->route('admin.secret')->with('error', 'Laporan tidak ditemukan.');
-        }
-
-        $post = $report->post;
-        $author = $post?->user;
-        if (! $author) {
-            return redirect()->route('admin.secret')->with('error', 'Penulis tidak ditemukan untuk laporan ini.');
-        }
-
-        $author->role = 'banned';
-        $author->save();
-
-        $report->status = 'resolved';
-        $report->save();
-
-        return redirect()->route('admin.secret')->with('success', 'User telah dibanned dan laporan diselesaikan.');
-    }
 
     // Moderation: dismiss/ignore the report
     public function dismissReport($id)

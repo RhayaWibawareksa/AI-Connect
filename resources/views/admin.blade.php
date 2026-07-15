@@ -395,12 +395,12 @@
             <a href="#section-posts" class="sidebar-nav-link">
                 <span class="nav-icon"><i class="bi bi-file-earmark-text"></i></span>
                 Postingan
-                <span class="sidebar-badge bg-primary text-white">128</span>
+                <span class="sidebar-badge bg-primary text-white">{{ $stats['total_posts'] }}</span>
             </a>
             <a href="#section-reports" class="sidebar-nav-link">
                 <span class="nav-icon"><i class="bi bi-flag"></i></span>
                 Laporan
-                <span class="sidebar-badge" style="background:rgba(248,81,73,0.2); color:var(--adm-accent);">7</span>
+                <span class="sidebar-badge" style="background:rgba(248,81,73,0.2); color:var(--adm-accent);">{{ $pendingReportsCount }}</span>
             </a>
             <a href="#section-comments" class="sidebar-nav-link">
                 <span class="nav-icon"><i class="bi bi-chat-square-dots"></i></span>
@@ -417,24 +417,9 @@
             <a href="#section-users" class="sidebar-nav-link">
                 <span class="nav-icon"><i class="bi bi-people"></i></span>
                 Semua User
-                <span class="sidebar-badge" style="background:rgba(63,185,80,0.2); color:var(--adm-green);">32K</span>
-            </a>
-            <a href="#section-blocked" class="sidebar-nav-link">
-                <span class="nav-icon"><i class="bi bi-person-slash"></i></span>
-                User Terblokir
+                <span class="sidebar-badge" style="background:rgba(63,185,80,0.2); color:var(--adm-green);">{{ $stats['total_users'] }}</span>
             </a>
 
-            {{-- Nav: Sistem --}}
-            <div class="sidebar-section-label">Sistem</div>
-
-            <a href="#section-settings" class="sidebar-nav-link">
-                <span class="nav-icon"><i class="bi bi-gear"></i></span>
-                Pengaturan
-            </a>
-            <a href="#section-logs" class="sidebar-nav-link">
-                <span class="nav-icon"><i class="bi bi-file-earmark-text"></i></span>
-                Log Sistem
-            </a>
 
             {{-- Kembali ke Feed --}}
             <div class="mt-4 px-3 pb-4">
@@ -505,66 +490,52 @@
                     </div>
                 </div>
 
-
                 {{-- ====================================================
                      KARTU KPI STATISTIK UTAMA
                      ==================================================== --}}
                 <div class="row g-3 mb-4">
-
-                    <div class="col-6 col-xl-3">
-                        <a href="#section-posts" class="kpi-link" data-filter="posts:all" style="text-decoration:none;">
-                            <div class="kpi-card">
-                                <div class="kpi-icon" style="background:rgba(88,166,255,0.12);">📝</div>
-                                <div class="kpi-value">{{ number_format($stats['total_posts']) }}</div>
-                                <div class="kpi-label">Total postingan</div>
-                                <div class="kpi-change" style="color:var(--adm-green);">
-                                    <i class="bi bi-arrow-up-short"></i> {{ $stats['published_posts'] }} terpublikasi
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-6 col-xl-3">
-                        <a href="#section-users" class="kpi-link" data-filter="users:all" style="text-decoration:none;">
-                            <div class="kpi-card">
-                                <div class="kpi-icon" style="background:rgba(63,185,80,0.12);">👥</div>
-                                <div class="kpi-value">{{ number_format($stats['total_users']) }}</div>
-                                <div class="kpi-label">Total akun terdaftar</div>
-                                <div class="kpi-change" style="color:var(--adm-green);">
-                                    <i class="bi bi-arrow-up-short"></i> {{ $stats['users_with_posts'] }} sudah membuat postingan
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-6 col-xl-3">
-                        <a href="#section-users" class="kpi-link" data-filter="users:with_posts" style="text-decoration:none;">
-                            <div class="kpi-card">
-                                <div class="kpi-icon" style="background:rgba(248,81,73,0.12);">✅</div>
-                                <div class="kpi-value">{{ number_format($stats['users_with_posts']) }}</div>
-                                <div class="kpi-label">Sudah membuat postingan</div>
-                                <div class="kpi-change" style="color:var(--adm-accent);">
-                                    <i class="bi bi-check2-circle"></i> {{ $stats['users_without_posts'] }} Belum pernah posting
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-6 col-xl-3">
-                        <a href="#section-posts" class="kpi-link" data-filter="posts:pending" style="text-decoration:none;">
-                            <div class="kpi-card">
-                                <div class="kpi-icon" style="background:rgba(210,153,34,0.12);">⏳</div>
-                                <div class="kpi-value">{{ number_format($stats['pending_posts']) }}</div>
-                                <div class="kpi-label">Postingan tertunda</div>
-                                <div class="kpi-change" style="color:var(--adm-green);">
-                                    <i class="bi bi-hourglass-split"></i> Menunggu review
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                </div>
-                {{-- /KPI --}}
+ 
+                     <div class="col-12 col-md-4">
+                         <a href="#section-posts" class="kpi-link" data-filter="posts:all" style="text-decoration:none;">
+                             <div class="kpi-card">
+                                 <div class="kpi-icon" style="background:rgba(88,166,255,0.12);">📝</div>
+                                 <div class="kpi-value">{{ number_format($stats['total_posts']) }}</div>
+                                 <div class="kpi-label">Total postingan</div>
+                                 <div class="kpi-change" style="color:var(--adm-green);">
+                                     <i class="bi bi-arrow-up-short"></i> {{ $stats['published_posts'] }} terpublikasi
+                                 </div>
+                             </div>
+                         </a>
+                     </div>
+  
+                     <div class="col-12 col-md-4">
+                         <a href="#section-users" class="kpi-link" data-filter="users:all" style="text-decoration:none;">
+                             <div class="kpi-card">
+                                 <div class="kpi-icon" style="background:rgba(63,185,80,0.12);">👥</div>
+                                 <div class="kpi-value">{{ number_format($stats['total_users']) }}</div>
+                                 <div class="kpi-label">Total akun terdaftar</div>
+                                 <div class="kpi-change" style="color:var(--adm-green);">
+                                     <i class="bi bi-arrow-up-short"></i> {{ $stats['users_with_posts'] }} sudah membuat postingan
+                                 </div>
+                             </div>
+                         </a>
+                     </div>
+  
+                     <div class="col-12 col-md-4">
+                         <a href="#section-users" class="kpi-link" data-filter="users:with_posts" style="text-decoration:none;">
+                             <div class="kpi-card">
+                                 <div class="kpi-icon" style="background:rgba(248,81,73,0.12);">✅</div>
+                                 <div class="kpi-value">{{ number_format($stats['users_with_posts']) }}</div>
+                                 <div class="kpi-label">Sudah membuat postingan</div>
+                                 <div class="kpi-change" style="color:var(--adm-accent);">
+                                     <i class="bi bi-check2-circle"></i> {{ $stats['users_without_posts'] }} Belum pernah posting
+                                 </div>
+                             </div>
+                         </a>
+                     </div>
+ 
+                 </div>
+                 {{-- /KPI --}}
 
                 {{-- ====================================================
                      SECTION: ANALITIK
@@ -732,7 +703,7 @@
                                     <i class="bi bi-flag" style="color:var(--adm-accent);"></i>
                                     Laporan Konten
                                 </h2>
-                                <span class="status-badge status-pending">7 Baru</span>
+                                <span class="status-badge status-pending">{{ $pendingReportsCount }} Baru</span>
                             </div>
 
                             <table class="admin-table">
@@ -763,10 +734,6 @@
                                         <td class="d-flex gap-1 flex-wrap">
                                             <form method="POST" action="{{ route('admin.report.delete_post', $r->id) }}">@csrf
                                                 <button class="btn-adm btn-adm-danger" type="submit">Hapus</button>
-                                            </form>
-
-                                            <form method="POST" action="{{ route('admin.report.ban_user', $r->id) }}">@csrf
-                                                <button class="btn-adm btn-adm-danger" type="submit">Ban</button>
                                             </form>
 
                                             <form method="POST" action="{{ route('admin.report.dismiss', $r->id) }}">@csrf
@@ -861,65 +828,9 @@
                     </div>
                 </div>
 
-                {{-- ====================================================
-                     SECTION: USER TERBLOKIR
-                     ==================================================== --}}
-                <div class="admin-panel mt-4" id="section-blocked">
-                    <div class="admin-panel-header">
-                        <h2 class="admin-panel-title"><i class="bi bi-person-slash" style="color:var(--adm-accent);"></i> User Terblokir</h2>
-                        <span style="font-size:0.75rem; color:var(--adm-text-muted);">{{ $blockedUsers->count() }} terblokir</span>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>User</th>
-                                    <th>Email</th>
-                                    <th>Alasan</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($blockedUsers as $bu)
-                                    <tr>
-                                        <td>{{ $bu->name ?? $bu->username }}</td>
-                                        <td>{{ $bu->email }}</td>
-                                        <td style="color:var(--adm-text-muted);">Terblokir oleh admin</td>
-                                        <td class="d-flex gap-1">
-                                            <form method="POST" action="{{ url('/admin/unblock/'.$bu->id) }}">@csrf
-                                                <button class="btn-adm btn-adm-success">Unblock</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr><td colspan="4" class="text-center py-3" style="color:var(--adm-text-muted);">Tidak ada user terblokir.</td></tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
 
-                {{-- ====================================================
-                     SECTION: PENGATURAN & LOGS (placeholder)
-                     ==================================================== --}}
-                <div class="row g-3 mt-4">
-                    <div class="col-lg-6">
-                        <div class="admin-panel" id="section-settings">
-                            <div class="admin-panel-header">
-                                <h2 class="admin-panel-title"><i class="bi bi-gear"></i> Pengaturan</h2>
-                            </div>
-                            <div class="p-3" style="color:var(--adm-text-muted);">Placeholder: konfigurasi sistem akan ditampilkan di sini. Anda dapat menambahkan pengaturan runtime, integrasi OAuth, atau pengaturan moderasi.</div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="admin-panel" id="section-logs">
-                            <div class="admin-panel-header">
-                                <h2 class="admin-panel-title"><i class="bi bi-file-earmark-text"></i> Log Sistem</h2>
-                            </div>
-                            <div class="p-3" style="color:var(--adm-text-muted);">Placeholder: ringkasan log terbaru. Untuk keamanan, log lengkap hanya dapat diakses melalui server.</div>
-                        </div>
-                    </div>
-                </div>
+
+
 
 
                 {{-- Footer Admin --}}
